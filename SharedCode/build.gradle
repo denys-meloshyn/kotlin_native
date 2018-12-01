@@ -1,5 +1,33 @@
+//apply plugin: 'com.android.application'
 apply plugin: 'kotlin-multiplatform'
+apply plugin: 'com.wiredforcode.spawn'
 
+//android {
+//    compileSdkVersion android_compile_sdk_version as Integer
+//
+////    defaultConfig {
+////        applicationId "com.example.denysmeloshyn.kotlin_common"
+////        minSdkVersion android_min_sdk_version as Integer
+////        targetSdkVersion android_target_sdk_version as Integer
+////        versionCode 1
+////        versionName "1.0"
+////        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+////    }
+//}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap' }
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "gradle.plugin.com.wiredforcode:gradle-spawn-plugin:0.8.2"
+    }
+}
 
 kotlin {
     targets {
@@ -22,6 +50,31 @@ kotlin {
             api 'org.jetbrains.kotlin:kotlin-stdlib'
         }
     }
+}
+
+repositories {
+    maven { url "https://kotlin.bintray.com/kotlin/kotlinx" }
+    maven { url "https://kotlin.bintray.com/ktor" }
+    google()
+    jcenter()
+}
+
+dependencies {
+    commonMainImplementation "io.ktor:ktor-client:$ktor_version"
+
+    androidMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
+    androidMainImplementation "io.ktor:ktor-client-android:$ktor_version"
+    androidMainImplementation 'com.android.support:appcompat-v7:28.0.0-rc02'
+    androidMainImplementation 'com.android.support.constraint:constraint-layout:1.1.2'
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+//    iosMainImplementation "io.ktor:ktor-client-ios:$ktor_version"
+//    iosArm64MainImplementation "io.ktor:ktor-client-ios_debug_ios_arm64:$ktor_version"
+//    iosX64MainImplementation "io.ktor:ktor-client-ios_debug_ios_x64:$ktor_version"
+
+//    jsMainImplementation "io.ktor:ktor-client-js:$ktor_version"
 }
 
 // workaround for https://youtrack.jetbrains.com/issue/KT-27170
