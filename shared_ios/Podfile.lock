@@ -1,0 +1,21 @@
+PODS:
+  - HTTPNetworking (0.1.0)
+
+DEPENDENCIES:
+  - HTTPNetworking (from `https://github.com/ned1988/HttpNetworking.git`)
+
+EXTERNAL SOURCES:
+  HTTPNetworking:
+    :git: https://github.com/ned1988/HttpNetworking.git
+
+CHECKOUT OPTIONS:
+  HTTPNetworking:
+    :commit: b27a7346f6bbb9b3567e6358042af26b55ac137f
+    :git: https://github.com/ned1988/HttpNetworking.git
+
+SPEC CHECKSUMS:
+  HTTPNetworking: cb31ca12f4fe4150509b0b3f8357fff7ad0ea376
+
+PODFILE CHECKSUM: c0be7038035c81f4178cdb9fe0d9d902d17892ae
+
+COCOAPODS: 1.5.3
