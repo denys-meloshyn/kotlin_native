@@ -10,3 +10,4 @@
 /captures
 .externalNativeBuild
 SharedCode/build
+shared_ios/Shared.xcworkspace/xcuserdata
