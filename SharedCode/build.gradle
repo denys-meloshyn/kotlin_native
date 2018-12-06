@@ -34,6 +34,38 @@ configurations {
 }
 
 dependencies {
+    commonMainImplementation "io.ktor:ktor-client:$ktor_version"
+
+    androidMainImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_coroutines_version"
+    androidMainImplementation "io.ktor:ktor-client-android:$ktor_version"
+    androidMainImplementation 'com.android.support:appcompat-v7:28.0.0-rc02'
+    androidMainImplementation 'com.android.support.constraint:constraint-layout:1.1.2'
+
+//    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //iosMainImplementation "io.ktor:ktor-client-ios:$ktor_version"
+//    iosArm64MainImplementation "io.ktor:ktor-client-ios_debug_ios_arm64:$ktor_version"
+//    iosX64MainImplementation "io.ktor:ktor-client-ios_debug_ios_x64:$ktor_version"
+
+//    jsMainImplementation "io.ktor:ktor-client-js:$ktor_version"
+}
+
+subprojects {
+    buildscript {
+        repositories {
+            google()
+            jcenter()
+            maven { url 'https://dl.bintray.com/kotlin/ktor' }
+            maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+        }
+        dependencies {
+            classpath "com.android.tools.build:gradle:3.1.3"
+        }
+    }
+    repositories {
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    }
 }
 
 task packForXCode(type: Sync) {
