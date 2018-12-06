@@ -10,6 +10,7 @@ buildscript {
         google()
         jcenter()
         mavenCentral()
+        maven { url "https://kotlin.bintray.com/ktor" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
@@ -20,6 +21,9 @@ buildscript {
     }
 }
 
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
 allprojects {
     repositories {
         google()
@@ -27,6 +31,16 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "io.ktor:ktor-server-netty:$ktor_version"
+    compile "io.ktor:ktor-client-apache:$ktor_version"
+    compile "io.ktor:ktor-html-builder:$ktor_version"
+    compile "ch.qos.logback:logback-classic:$logback_version"
 }
+
+kotlin.experimental.coroutines = 'enable'
+
+//task clean(type: Delete) {
+//    delete rootProject.buildDir
+//}
