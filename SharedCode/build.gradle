@@ -1,5 +1,9 @@
 apply plugin: 'kotlin-multiplatform'
+apply plugin: 'com.android.application'
 
+android {
+    compileSdkVersion project.ext.compile_version
+}
 
 kotlin {
     targets {
