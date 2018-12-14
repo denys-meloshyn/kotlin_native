@@ -1,5 +1,6 @@
 package org.kotlin.mpp.mobile
 
+import com.soywiz.klock.DateTime
 import kotlinx.serialization.Optional
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JSON
@@ -29,16 +30,17 @@ interface ICommonTypes {
     fun dateFrom(string: String): CommonDate?
 }
 
-class AccountingYear {
-    var fromDate: CommonDate? = null
-    var toDate: CommonDate? = null
-    var year: Int? = null
-    var periods: String? = null
-    var entries: String? = null
-    var totals: String? = null
-    var vouchers: String? = null
-    var selfLink: String? = null
-}
+@Serializable
+data class AccountingYear (
+    var fromDate: CommonDate?,
+    var toDate: CommonDate?,
+    var year: Int?,
+    var periods: String?,
+    var entries: String?,
+    var totals: String?,
+    var vouchers: String?,
+    var selfLink: String?
+)
 
 class Git(val login: String)
 
@@ -48,6 +50,8 @@ class Manager(
     private val foundation: ICommonTypes
 ) {
     fun loadData(completion: (Git) -> Unit) {
+        val now = DateTime.now()
+
         // serializing objects
         val jsonData = JSON.stringify(Data.serializer(), Data(42))
         // serializing lists
