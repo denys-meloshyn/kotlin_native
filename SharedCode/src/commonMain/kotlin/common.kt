@@ -10,8 +10,19 @@ interface LoaderI {
     fun get(url: String, completion: (String) -> Unit)
 }
 
-class Manager(private val loader: LoaderI) {
-    fun loadData(completion: (String) -> Unit) {
-        loader.get("https://api.github.com/users/defunkt", completion)
+interface IJson {
+    fun serialize(data: String): HashMap<String, Any>
+}
+
+class Git(val login: String)
+
+class Manager(private val loader: LoaderI, private val json: IJson) {
+    fun loadData(completion: (Git) -> Unit) {
+        loader.get("https://api.github.com/users/defunkt") {
+            val data = json.serialize(it)
+            val git = Git(login = data["login"] as String)
+
+            completion(git)
+        }
     }
 }

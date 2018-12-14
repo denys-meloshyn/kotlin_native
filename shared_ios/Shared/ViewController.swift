@@ -19,10 +19,33 @@ import HTTPNetworking
     }
 }
 
+@objc class JsonObjc: NSObject, IJson {
+    func serialize(data: String) -> KotlinMutableDictionary<NSString, AnyObject> {
+        guard let dataObj = data.data(using: .utf8) else {
+            return [:]
+        }
+        
+        do {
+            guard let jsonResult = try JSONSerialization.jsonObject(with: dataObj, options: .mutableLeaves) as? [String: AnyObject] else {
+                return [:]
+            }
+            
+            return KotlinMutableDictionary(dictionary: jsonResult)
+        } catch {
+            return [:]
+        }
+    }
+}
+
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        let m = Manager(loader: HTTPNetworkObjc())
+        
+        let g = Git(login: "")
+        
+        let json = JsonObjc()
+        let loader = HTTPNetworkObjc()
+        let m = Manager(loader: loader, json: json)
         m.loadData { (data) in
             print("\(data)")
             return KotlinUnit()

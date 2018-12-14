@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 
-@class SharedCodeKotlinUnit, SharedCodeManager;
+@class SharedCodeKotlinUnit, SharedCodeGit, SharedCodeManager;
 
-@protocol SharedCodeLoaderI;
+@protocol SharedCodeLoaderI, SharedCodeIJson;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -147,11 +147,24 @@ __attribute__((swift_name("LoaderI")))
 - (void)getUrl:(NSString *)url completion:(SharedCodeKotlinUnit *(^)(NSString *))completion __attribute__((swift_name("get(url:completion:)")));
 @end;
 
+__attribute__((swift_name("IJson")))
+@protocol SharedCodeIJson
+@required
+- (SharedCodeMutableDictionary<NSString *, id> *)serializeData:(NSString *)data __attribute__((swift_name("serialize(data:)")));
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("Git")))
+@interface SharedCodeGit : KotlinBase
+- (instancetype)initWithLogin:(NSString *)login __attribute__((swift_name("init(login:)"))) __attribute__((objc_designated_initializer));
+@property (readonly) NSString *login;
+@end;
+
 __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("Manager")))
 @interface SharedCodeManager : KotlinBase
-- (instancetype)initWithLoader:(id<SharedCodeLoaderI>)loader __attribute__((swift_name("init(loader:)"))) __attribute__((objc_designated_initializer));
-- (void)loadDataCompletion:(SharedCodeKotlinUnit *(^)(NSString *))completion __attribute__((swift_name("loadData(completion:)")));
+- (instancetype)initWithLoader:(id<SharedCodeLoaderI>)loader json:(id<SharedCodeIJson>)json __attribute__((swift_name("init(loader:json:)"))) __attribute__((objc_designated_initializer));
+- (void)loadDataCompletion:(SharedCodeKotlinUnit *(^)(SharedCodeGit *))completion __attribute__((swift_name("loadData(completion:)")));
 @end;
 
 __attribute__((objc_subclassing_restricted))
