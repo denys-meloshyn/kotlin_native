@@ -1,5 +1,5 @@
 apply plugin: 'kotlin-multiplatform'
-
+apply plugin: 'kotlinx-serialization'
 
 kotlin {
     targets {
@@ -16,6 +16,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api 'org.jetbrains.kotlin:kotlin-stdlib-common'
+            implementation "com.soywiz:klock:$klockVersion"
         }
 
         androidMain.dependencies {
