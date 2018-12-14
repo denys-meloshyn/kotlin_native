@@ -15,9 +15,15 @@ interface IJson {
     fun serialize(data: String): HashMap<String, Any>
 }
 
+class CommonDate(year: Int?, month: Int?, day: Int?, hour: Int?, minute: Int?, second: Int?)
+
+interface ICommonTypes {
+    fun dateFrom(string: String): CommonDate?
+}
+
 class AccountingYear {
-    var fromDate: String? = null
-    var toDate: String? = null
+    var fromDate: CommonDate? = null
+    var toDate: CommonDate? = null
     var year: Int? = null
     var periods: String? = null
     var entries: String? = null
@@ -28,7 +34,11 @@ class AccountingYear {
 
 class Git(val login: String)
 
-class Manager(private val loader: LoaderI, private val json: IJson) {
+class Manager(
+    private val loader: LoaderI,
+    private val json: IJson,
+    private val foundation: ICommonTypes
+) {
     fun loadData(completion: (Git) -> Unit) {
         loader.get("https://api.github.com/users/defunkt") {
             val data = json.serialize(it)
@@ -42,10 +52,12 @@ class Manager(private val loader: LoaderI, private val json: IJson) {
         loader.get("https://restapi.e-conomic.com/accounting-years") { response ->
             val json = json.serialize(response)
             val collection = json["collection"] as? List<HashMap<String, String>>
-            val r = collection?.map {
-                val accountingYear = AccountingYear()
-                accountingYear.fromDate = it["fromDate"]
-            }
+//            val r = collection?.map {
+//                val accountingYear = AccountingYear()
+//                accountingYear.fromDate = foundation.dateFrom(it["fromDate"] ?: "")
+//
+//                return accountingYear
+//            }
         }
     }
 }
