@@ -1,13 +1,10 @@
 package org.kotlin.mpp.mobile
 
 import com.soywiz.klock.DateTime
-import kotlinx.serialization.Optional
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JSON
-import kotlinx.serialization.list
 
-@Serializable
-data class Data(val a: Int, @Optional val b: String = "42")
+//import kotlinx.serialization.Optional
+
+//data class Data(val a: Int, @Optional val b: String = "42")
 
 expect fun platformName(): String
 
@@ -30,7 +27,6 @@ interface ICommonTypes {
     fun dateFrom(string: String): CommonDate?
 }
 
-@Serializable
 data class AccountingYear (
     var fromDate: CommonDate?,
     var toDate: CommonDate?,
@@ -51,11 +47,6 @@ class Manager(
 ) {
     fun loadData(completion: (Git) -> Unit) {
         val now = DateTime.now()
-
-        // serializing objects
-        val jsonData = JSON.stringify(Data.serializer(), Data(42))
-        // serializing lists
-        val jsonList = JSON.stringify(Data.serializer().list, listOf(Data(42)))
 
         loader.get("https://api.github.com/users/defunkt") {
             val data = json.serialize(it)

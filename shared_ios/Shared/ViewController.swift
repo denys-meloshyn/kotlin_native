@@ -11,6 +11,9 @@ import SharedCode
 import HTTPNetworking
 
 @objc class HTTPNetworkObjc: NSObject, LoaderI {
+    func get(url: String, headers: KotlinMutableDictionary<NSString, NSString>, completion: @escaping (String) -> KotlinUnit) {
+    }
+    
     func get(url: String, completion: @escaping (String) -> KotlinUnit) {
         let request = URLRequest(url: URL(string: url)!)
         HTTPNetwork.instance.load(request) { (data, response, error) in
@@ -37,6 +40,12 @@ import HTTPNetworking
     }
 }
 
+@objc class CommonTypes: NSObject, ICommonTypes {
+    func dateFrom(string: String) -> CommonDate? {
+        return nil
+    }
+}
+
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +54,7 @@ class ViewController: UIViewController {
         
         let json = JsonObjc()
         let loader = HTTPNetworkObjc()
+        Manager(loader: loader, json: json, foundation: <#T##ICommonTypes#>)
         let m = Manager(loader: loader, json: json)
         m.loadData { (data) in
             print("\(data)")

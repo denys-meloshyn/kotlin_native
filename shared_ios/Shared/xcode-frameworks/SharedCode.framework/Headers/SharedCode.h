@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 
-@class SharedCodeKotlinUnit, SharedCodeGit, SharedCodeManager;
+@class SharedCodeKotlinUnit, SharedCodeCommonDate, SharedCodeAccountingYear, SharedCodeGit, SharedCodeManager;
 
-@protocol SharedCodeLoaderI, SharedCodeIJson;
+@protocol SharedCodeLoaderI, SharedCodeIJson, SharedCodeICommonTypes;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -145,12 +145,48 @@ __attribute__((swift_name("LoaderI")))
 @protocol SharedCodeLoaderI
 @required
 - (void)getUrl:(NSString *)url completion:(SharedCodeKotlinUnit *(^)(NSString *))completion __attribute__((swift_name("get(url:completion:)")));
+- (void)getUrl:(NSString *)url headers:(SharedCodeMutableDictionary<NSString *, NSString *> *)headers completion:(SharedCodeKotlinUnit *(^)(NSString *))completion __attribute__((swift_name("get(url:headers:completion:)")));
 @end;
 
 __attribute__((swift_name("IJson")))
 @protocol SharedCodeIJson
 @required
 - (SharedCodeMutableDictionary<NSString *, id> *)serializeData:(NSString *)data __attribute__((swift_name("serialize(data:)")));
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("CommonDate")))
+@interface SharedCodeCommonDate : KotlinBase
+- (instancetype)initWithYear:(SharedCodeInt * _Nullable)year month:(SharedCodeInt * _Nullable)month day:(SharedCodeInt * _Nullable)day hour:(SharedCodeInt * _Nullable)hour minute:(SharedCodeInt * _Nullable)minute second:(SharedCodeInt * _Nullable)second __attribute__((swift_name("init(year:month:day:hour:minute:second:)"))) __attribute__((objc_designated_initializer));
+@end;
+
+__attribute__((swift_name("ICommonTypes")))
+@protocol SharedCodeICommonTypes
+@required
+- (SharedCodeCommonDate * _Nullable)dateFromString:(NSString *)string __attribute__((swift_name("dateFrom(string:)")));
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("AccountingYear")))
+@interface SharedCodeAccountingYear : KotlinBase
+- (instancetype)initWithFromDate:(SharedCodeCommonDate * _Nullable)fromDate toDate:(SharedCodeCommonDate * _Nullable)toDate year:(SharedCodeInt * _Nullable)year periods:(NSString * _Nullable)periods entries:(NSString * _Nullable)entries totals:(NSString * _Nullable)totals vouchers:(NSString * _Nullable)vouchers selfLink:(NSString * _Nullable)selfLink __attribute__((swift_name("init(fromDate:toDate:year:periods:entries:totals:vouchers:selfLink:)"))) __attribute__((objc_designated_initializer));
+- (SharedCodeCommonDate * _Nullable)component1 __attribute__((swift_name("component1()")));
+- (SharedCodeCommonDate * _Nullable)component2 __attribute__((swift_name("component2()")));
+- (SharedCodeInt * _Nullable)component3 __attribute__((swift_name("component3()")));
+- (NSString * _Nullable)component4 __attribute__((swift_name("component4()")));
+- (NSString * _Nullable)component5 __attribute__((swift_name("component5()")));
+- (NSString * _Nullable)component6 __attribute__((swift_name("component6()")));
+- (NSString * _Nullable)component7 __attribute__((swift_name("component7()")));
+- (NSString * _Nullable)component8 __attribute__((swift_name("component8()")));
+- (SharedCodeAccountingYear *)doCopyFromDate:(SharedCodeCommonDate * _Nullable)fromDate toDate:(SharedCodeCommonDate * _Nullable)toDate year:(SharedCodeInt * _Nullable)year periods:(NSString * _Nullable)periods entries:(NSString * _Nullable)entries totals:(NSString * _Nullable)totals vouchers:(NSString * _Nullable)vouchers selfLink:(NSString * _Nullable)selfLink __attribute__((swift_name("doCopy(fromDate:toDate:year:periods:entries:totals:vouchers:selfLink:)")));
+@property SharedCodeCommonDate * _Nullable fromDate;
+@property SharedCodeCommonDate * _Nullable toDate;
+@property SharedCodeInt * _Nullable year;
+@property NSString * _Nullable periods;
+@property NSString * _Nullable entries;
+@property NSString * _Nullable totals;
+@property NSString * _Nullable vouchers;
+@property NSString * _Nullable selfLink;
 @end;
 
 __attribute__((objc_subclassing_restricted))
@@ -163,8 +199,9 @@ __attribute__((swift_name("Git")))
 __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("Manager")))
 @interface SharedCodeManager : KotlinBase
-- (instancetype)initWithLoader:(id<SharedCodeLoaderI>)loader json:(id<SharedCodeIJson>)json __attribute__((swift_name("init(loader:json:)"))) __attribute__((objc_designated_initializer));
+- (instancetype)initWithLoader:(id<SharedCodeLoaderI>)loader json:(id<SharedCodeIJson>)json foundation:(id<SharedCodeICommonTypes>)foundation __attribute__((swift_name("init(loader:json:foundation:)"))) __attribute__((objc_designated_initializer));
 - (void)loadDataCompletion:(SharedCodeKotlinUnit *(^)(SharedCodeGit *))completion __attribute__((swift_name("loadData(completion:)")));
+- (void)loadAccountingYearsCompletion:(SharedCodeKotlinUnit *(^)(NSArray<SharedCodeAccountingYear *> *))completion __attribute__((swift_name("loadAccountingYears(completion:)")));
 @end;
 
 __attribute__((objc_subclassing_restricted))
