@@ -11,6 +11,9 @@ import SharedCode
 import HTTPNetworking
 
 @objc class HTTPNetworkObjc: NSObject, LoaderI {
+    func get(url: String, headers: KotlinMutableDictionary<NSString, NSString>, completion: @escaping (String) -> KotlinUnit) {
+    }
+    
     func get(url: String, completion: @escaping (String) -> KotlinUnit) {
         let request = URLRequest(url: URL(string: url)!)
         HTTPNetwork.instance.load(request) { (data, response, error) in
@@ -45,11 +48,11 @@ class ViewController: UIViewController {
         
         let json = JsonObjc()
         let loader = HTTPNetworkObjc()
-        let m = Manager(loader: loader, json: json)
-        m.loadData { (data) in
-            print("\(data)")
-            return KotlinUnit()
-        }
+//        let m = Manager(loader: loader, json: json)
+//        m.loadData { (data) in
+//            print("\(data)")
+//            return KotlinUnit()
+//        }
         print(CommonKt.createApplicationScreenMessage())
         // Do any additional setup after loading the view, typically from a nib.
     }

@@ -1,13 +1,17 @@
 package org.kotlin.mpp.mobile
 
 import com.soywiz.klock.DateTime
-import kotlinx.serialization.Optional
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JSON
-import kotlinx.serialization.list
+import io.ktor.http.content.PartData
 
+/*
+import com.soywiz.klock.DateTime
+import kotlinx.serialization.Serializable
+
+*/
+/*
 @Serializable
 data class Data(val a: Int, @Optional val b: String = "42")
+*/
 
 expect fun platformName(): String
 
@@ -18,6 +22,7 @@ fun createApplicationScreenMessage(): String {
 interface LoaderI {
     fun get(url: String, completion: (String) -> Unit)
     fun get(url: String, headers: HashMap<String, String>, completion: (String) -> Unit)
+    fun test(file: PartData.FileItem)
 }
 
 interface IJson {
@@ -30,7 +35,6 @@ interface ICommonTypes {
     fun dateFrom(string: String): CommonDate?
 }
 
-@Serializable
 data class AccountingYear (
     var fromDate: CommonDate?,
     var toDate: CommonDate?,
@@ -52,10 +56,10 @@ class Manager(
     fun loadData(completion: (Git) -> Unit) {
         val now = DateTime.now()
 
-        // serializing objects
-        val jsonData = JSON.stringify(Data.serializer(), Data(42))
-        // serializing lists
-        val jsonList = JSON.stringify(Data.serializer().list, listOf(Data(42)))
+//        // serializing objects
+//        val jsonData = JSON.stringify(Data.serializer(), Data(42))
+//        // serializing lists
+//        val jsonList = JSON.stringify(Data.serializer().list, listOf(Data(42)))
 
         loader.get("https://api.github.com/users/defunkt") {
             val data = json.serialize(it)
@@ -77,5 +81,4 @@ class Manager(
 //            }
         }
     }
-
 }
